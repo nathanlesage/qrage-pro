@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  deploy:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository (main branch)
+        uses: actions/checkout@v4
+        with:
+          ref: 'main'
+      - name: Setup NodeJS ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+      - name: Build
+        run: |
+          yarn install --immutable
+          yarn build
+          cp -R ./dist ./_site
+      - name: Upload and deploy
+        id: deployment
+        uses: actions/deploy-pages@v1
