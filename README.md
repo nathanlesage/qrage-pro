@@ -51,9 +51,10 @@ A large VCard QR code using the Rorschach blot style, custom foreground and back
 
 QRage Pro is implemented as a progressive web app on top of modern web
 technologies. It runs in any modern browser, including Chrome, Safari, or
-Firefox. To get started, simply start the app, choose the type of QR code you
-want to create, and enter the appropriate data. Depending on what type of data
-you encode into the QR code, smartphones will offer various actions:
+Firefox. To get started, simply [start the app by clicking here](https://nathanlesage.github.io/qrage-pro/),
+choose the type of QR code you want to create, and enter the appropriate data.
+Depending on what type of data you encode into the QR code, smartphones will
+offer various actions:
 
 * open URLs in the web browser
 * add VCards to the address book
