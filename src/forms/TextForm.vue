@@ -1,5 +1,11 @@
 <template>
   <form id="url" v-on:submit.prevent="apply">
+    <p>
+      Encode a link, an email, some arbitrary text, a telephone number, or similar
+      data in the QR code. Choose the appropriate data type and insert the data
+      you want in the text field. Click on "Generate" to create the QR code. You
+      can customize it further in the settings tab above.
+    </p>
     <div class="form-line">
       <label>Data type</label>
       <div id="text-format-container">

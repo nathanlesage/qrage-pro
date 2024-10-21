@@ -1,5 +1,13 @@
 <template>
   <form id="settings">
+    <p>
+      Customize your QR code here. Choose a display style, the amount of error
+      correction, and the overall size of the QR code. The margin property
+      controls the "quiet zone" around the code. Your logo must be either PNG
+      or JPEG, and it should neither be too large nor too small for optimal
+      display. The first background color is transparent, which might be useful
+      for some applications.
+    </p>
     <div class="form-line">
       <label for="style">Style</label>
       <select name="style" v-model="store.state.style">

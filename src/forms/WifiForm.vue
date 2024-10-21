@@ -1,5 +1,9 @@
 <template>
   <form id="wifi" v-on:submit.prevent="apply">
+    <p>
+      Create a QR code that enables anyone who scans the QR code to immediately
+      join the WiFi network provided in the code.
+    </p>
     <div class="form-line">
       <label for="ssid">SSID</label>
       <input type="text" name="ssid" placeholder="WiFi name" v-model="ssid">

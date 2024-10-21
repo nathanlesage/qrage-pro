@@ -1,5 +1,13 @@
 <template>
   <form id="vcard" v-on:submit.prevent="apply">
+    <p>
+      Create a business card &ndash; either for yourself or for your business. Except
+      the name, all properties are optional. If you create an organization, choose
+      that one as the name. Note also that the "main phone" will be what the
+      user's phones will offer to dial by default. If you want the users to dial
+      your work phone, put that one into both the work phone and main phone
+      fields. Likewise with your personal (home) phone.
+    </p>
     <div class="form-line">
       <label>Given name</label>
       <input type="text" v-model="givenName" placeholder="John" required>

@@ -5,6 +5,12 @@
     </div>
   </header>
   <div class="container">
+      <section class="lead">
+        Generate beautiful and custom QR codes in a breeze. Simply select the
+        appropriate tab, enter the data you want to see in the QR code, and
+        adapt the settings. QRage Pro lets you customize everything from colors
+        to even include your own logo.
+      </section>
       <div id="tab-container">
         <a href="#text" v-on:click.prevent="currentForm = 'text'" v-bind:class="{ active: currentForm === 'text' }">Text</a>
         <a href="#wifi" v-on:click.prevent="currentForm = 'wifi'" v-bind:class="{ active: currentForm === 'wifi' }">WiFi</a>
@@ -45,6 +51,11 @@ const currentForm = ref('text')
 </script>
 
 <style lang="css" scoped>
+section.lead {
+  margin: 20px 0;
+  line-height: 120%;
+}
+
 footer {
   margin: 0;
   height: 40px;
