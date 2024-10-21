@@ -29,11 +29,13 @@ jobs:
           yarn install --immutable
           yarn build
       - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Upload
+        uses: actions/configure-pages@v5
+      - name: Upload files
+        id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist/
+
   deploy:
     permissions:
       pages: write
@@ -44,8 +46,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
