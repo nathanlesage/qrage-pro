@@ -59,7 +59,7 @@
       <label for="logo">Logo</label>
       <div class="flex">
         <img v-if="store.state.logo !== undefined" v-bind:src="store.state.logo" style="max-width: 25%">
-        <input v-if="store.state.logo === undefined" type="file" v-on:input="handleImage">
+        <input v-if="store.state.logo === undefined" type="file" accept=".png, .jpg, .jpeg" v-on:input="handleImage">
         <button v-if="store.state.logo !== undefined" v-on:click.prevent="store.state.logo = undefined">Remove</button>
       </div>
     </div>
