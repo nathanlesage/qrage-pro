@@ -2,6 +2,7 @@
 
 > The No-BS QR code generator. Generate QR codes for links, emails, WiFis,
 > calendars, VCards, and business cards and more. 100% customizable, 0% cost.
+> [Launch here](https://nathanlesage.github.io/qrage-pro/).
 
 QRage Pro (pron. *Courage Pro*) is a professional QR code generator for
 everybody. It generates QR codes from many pieces of data relevant to
@@ -20,7 +21,7 @@ All free features at a glance:
 * Make your QR code a brand ambassador: Emboss your company's logo onto the
   QR code to strengthen your brand
 
-Start creating your QR codes today with QRage Pro!
+Start creating your QR codes today with [QRage Pro](https://nathanlesage.github.io/qrage-pro/)!
 
 > [!TIP]
 > [Click here](#usage) to jump directly to the usage instructions.
