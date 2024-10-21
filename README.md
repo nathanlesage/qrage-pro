@@ -22,6 +22,30 @@ All free features at a glance:
 
 Start creating your QR codes today with QRage Pro!
 
+> [!TIP]
+> [Click here](#usage) to jump directly to the usage instructions.
+
+## Examples
+
+Here are some examples created with QRage Pro. Try them out by pointing your
+smartphone's camera at the QR codes and scan them!
+
+![Zettlr QR](resources/examples/zettlr.jpg)
+
+A small URL QR code with custom color and logo.
+
+![Pandoc QR](resources/examples/pandoc.png)
+
+A medium URL QR code with dot matrix, custom color and logo.
+
+![Vue QR](resources/examples/vue.png)
+
+A large URL QR code using the Rorschach blot style, custom color, and logo.
+
+![VCard QR](resources/examples/vcard.png)
+
+A large VCard QR code using the Rorschach blot style, custom foreground and background color.
+
 ## Usage
 
 QRage Pro is implemented as a progressive web app on top of modern web
