@@ -30,7 +30,12 @@ jobs:
         run: |
           yarn install --immutable
           yarn build
-          cp -R ./dist ./_site
-      - name: Upload and deploy
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+      - name: Deploy
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2
