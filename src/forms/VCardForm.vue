@@ -161,6 +161,7 @@ function apply () {
   const data = [
     'BEGIN:VCARD',
     'VERSION:3.0',
+    'PRODID:-//QRage Pro//NONSGML QRage Pro v1.0//EN',
     `FN:${givenName.value} ${familyName.value}`,
     `N:${familyName.value};${givenName.value}`,
     `UID:${uuid()}`,
@@ -172,7 +173,7 @@ function apply () {
     `LABEL;TYPE=HOME:Home`,
     `ADR;type=HOME:;;${homeStreet.value};${homeCity.value};${homeState.value};${homeZip.value};${homeCountry.value}`,
     `LABEL;TYPE=WORK:Work`,
-    `ADR;type=HOME:;;${workStreet.value};${workCity.value};${workState.value};${workZip.value};${workCountry.value}`,
+    `ADR;type=WORK:;;${workStreet.value};${workCity.value};${workState.value};${workZip.value};${workCountry.value}`,
     `TITLE:${title.value}`,
     `ROLE:${role.value}`,
     `ORG:${company.value}`,

@@ -82,7 +82,7 @@ function apply() {
   const data = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//rageqr/eventqr//NONSGML v1.0//EN',
+    'PRODID:-//QRage Pro//NONSGML QRage Pro v1.0//EN',
     'CALSCALE:GREGORIAN',
     'BEGIN:VEVENT',
     `DTSTART:${start}`,

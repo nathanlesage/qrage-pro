@@ -29,9 +29,9 @@ export function cleanState (): State {
   return {
     data: '',
     errorCorrection: 'M',
-    scale: 10,
+    scale: 5,
     margin: 1,
-    logoSize: 'L',
+    logoSize: 'S',
     width: undefined,
     style: "default",
     foregroundColor: '#000000ff',
