@@ -109,7 +109,18 @@ function drawLogo (ctx: CanvasRenderingContext2D, nModules: number, blockSize: n
   // drawImage doesn't accept data URLs, so we'll simply provide an image tag.
   const img = document.createElement('img')
   img.onload = () => {
-    ctx.drawImage(img, x, y, sizePx, sizePx)
+    const aspect = img.naturalWidth / img.naturalHeight
+    if (aspect < 1) {
+      // Portrait picture
+      const imgWidth = sizePx * aspect
+      const offset = Math.floor(sizePx / 2 - imgWidth / 2)
+      ctx.drawImage(img, x + offset, y, imgWidth, sizePx)
+    } else {
+      // Landscape picture
+      const imgHeight = sizePx / aspect
+      const offset = Math.floor(sizePx / 2 - imgHeight / 2)
+      ctx.drawImage(img, x, y + offset, sizePx, imgHeight)
+    }
   }
   img.src = opts.logo
 }

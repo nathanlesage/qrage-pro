@@ -27,7 +27,7 @@
       <div class="container">
         <strong>QRage Pro</strong>
         | &copy; 2024 Hendrik Erz
-        | <a href="">View on GitHub</a>
+        | <a href="https://github.com/nathanlesage/qrage-pro">View on GitHub</a>
       </div>
     </footer>
 </template>
