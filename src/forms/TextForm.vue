@@ -63,6 +63,7 @@ const data = ref('')
 
 function apply () {
   switch (dataType.value) {
+    case 'url':
     case 'text':
       store.setQRData(data.value)
       break
