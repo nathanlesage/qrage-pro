@@ -1,6 +1,8 @@
 <template>
   <header>
-    <h1>QRage Pro <small>The No-BS QR Code Generator</small></h1>
+    <div class="container">
+      <h1>QRage Pro <small>The No-BS QR Code Generator</small></h1>
+    </div>
   </header>
   <div class="container">
       <div id="tab-container">
@@ -22,9 +24,11 @@
       <QRCode></QRCode>
     </div>
     <footer>
-      <strong>QRage Pro</strong>
-      | &copy; 2024 Hendrik Erz
-      | <a href="">View on GitHub</a>
+      <div class="container">
+        <strong>QRage Pro</strong>
+        | &copy; 2024 Hendrik Erz
+        | <a href="">View on GitHub</a>
+      </div>
     </footer>
 </template>
 
