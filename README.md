@@ -70,58 +70,6 @@ After you are done, you can export the QR code to your computer.
 
 PRs to add functionality and fix bugs are highly appreciated.
 
-## Motivation
-
-Okay, let's cut through the BS. I absolutely hate "free" QR code readers and
-this is the only reason this project even exists. It all started with me
-thinking "Hey, for this presentation, it would be great to have some QR codes
-that folks can quickly scan!" So I ventured out and searched for some simple QR
-code generator.
-
-The first Google result was a complete SEO-pothole. Yes, I could create a very
-simple URL-based QR code, and I was able to click download. And it would even
-download it, *but* only after presenting me a "Please sign up and give me your
-data" banner for – I measured – 15 seconds. Even worse, that wanker even added
-an event listener so that when you would do anything else but stare at that pity
-excuse of a "service" it would stop the counter, and never restart it, so that
-you would have to manually click on "X", click on Download again and this time
-stop using your computer until the download would actually initiate. And all of
-this while telling me "Please wait – Generating QR code!" You know how long it
-takes to generate a bloody QR code? *Fractions of a second!* Try it out on this
-generator: Enter a ton of data, then add a 2 Megabyte logo and try regenerating
-that thing – it will be almost instantaneous. Absolute garbage.
-
-But it doesn't stop there. After I decided that I'm not a guinnea pig in an
-experiment of how long you can make people stare at an ad for gratification
-before they turn violent, I tried out a dozen other generators. But it got even
-worse. Half of those things would let you patiently enter data into some form
-and offer you a "Download" button only to reveal to you that the button is
-mislabeled. Instead of "Downloading", they wanted to say "Give us your data and
-we may let you generate a QR code." The other half put most of the basic
-features behind a paywall. Why the bloody hell should I pay for generating a
-10kb image of some data, implemented using an open protocol? Do you know how
-much it costs to generate a QR code? You'll have to generate a few hundred
-thousands until you may be able to see it on your utilities bill. How much does
-it cost to maintain such a website? The protocols haven't changed in decades and
-they likely won't in the next few.
-
-Okay, so, anything out in the wild has fallen prey to the enshittification of
-the internet. So let's head out to Open Source versions! … right? Well, I mean
-those were finally ad-free and fully open with no data, but … at that point I've
-seen that maybe customizing the color would be nice after all.
-
-And that's why this project exists. To offer all of these pretty basic features
-at no cost and no data. In fact, I don't want any of your data. That's just work
-for me. I don't wanna be the responsible party when your data gets lost
-somewhere. You can do that pretty well yourself. And yes, your first reading of
-the name was more correct than "Courage", but those people have probably already
-stopped reading after the Usage section.
-
-So, rant over. Please enjoy the service while it's not enshittified ;)
-
-And, if you do in fact *want* to show some appreciation – without me forcing
-you –, please consider sponsoring me. But again, this whole thing is free.
-
 ## License
 
 This software is licensed via the [GNU GPL v3-License](https://www.gnu.org/licenses/gpl-3.0.en.html).
