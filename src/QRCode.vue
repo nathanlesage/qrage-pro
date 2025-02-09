@@ -2,8 +2,8 @@
   <div id="qr-code-container">
     <canvas id="qr-code"></canvas>
     <div class="button-container">
-      <a class="button big" v-on:click.prevent="download('png')">PNG</a>
-      <a class="button big" v-on:click.prevent="download('jpg')">JPG</a>
+      <a class="button big" v-on:click.prevent="download('png')">Download as PNG</a>
+      <a class="button big" v-on:click.prevent="download('jpg')">Download as JPG</a>
     </div>
     <details id="qr-code-info">
       <summary>QR Code information</summary>
@@ -156,7 +156,6 @@ a.button.big:last-child {
 
   summary {
     cursor: pointer;
-    margin-bottom: 15px;
   }
 
   &[open] summary {

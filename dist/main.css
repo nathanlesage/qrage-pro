@@ -5,10 +5,8 @@
   --fg-light: #333;
   --fg-dark: #fff;
 
-  --header-bg-light: var(--bg-dark);
-  --header-fg-light: var(--fg-dark);
-  --header-bg-dark: #003;
-  --header-fg-dark: var(--fg-dark);
+  --border-light: #aaa;
+  --border-dark: #fff;
 
   --input-bg-light: #fff;
   --input-bg-dark: #666;
@@ -39,6 +37,7 @@ html, body {
   background-color: transparent;
   width: 100vw;
   height: 100vh;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 img {
@@ -58,13 +57,12 @@ div#app {
   overflow-y: auto;
   background-color: var(--bg-light);
   color: var(--fg-light);
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   overflow: auto;
 }
 
 header, footer {
-  background-color: var(--header-bg-dark);
-  color: var(--header-fg-dark);
+  background-color: var(--accent-bg-light);
+  color: var(--accent-fg-light);
   margin-bottom: 10px;
   overflow: hidden;
 
@@ -87,6 +85,7 @@ div#qr-code-container {
 
 div.container {
   max-width: 600px;
+  padding: 0 10px;
   margin: 0 auto;
 }
 
@@ -119,8 +118,8 @@ form input:invalid {
   }
 
   header, footer {
-    background-color: var(--header-bg-dark);
-    color: var(--header-fg-dark);
+    background-color: var(--accent-bg-dark);
+    color: var(--accent-fg-dark);
   }
 
   form input {

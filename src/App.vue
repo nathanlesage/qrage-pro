@@ -68,7 +68,7 @@ footer {
 }
 
 #form-container {
-  border: 1px dashed #aaa;
+  border: 1px solid #aaa;
   padding: 10px 10px;
   border-bottom-left-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
@@ -81,10 +81,14 @@ footer {
 }
 
 #tab-container a {
+  border: 1px solid var(--border-light);
+  border-bottom: none;
   display: inline-block;
   text-decoration: none;
   color: #333;
   padding: 5px 10px;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
 }
 
 #tab-container a:hover, #tab-container a.active {
@@ -93,13 +97,11 @@ footer {
 
 #tab-container a.active {
   background-color: var(--accent-bg-light);
-  border-top-left-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
 }
 
 @media (prefers-color-scheme: dark) {
   #form-container {
-    border-color: #fff;
+    border-color: var(--border-dark);
   }
 
   #tab-container a {

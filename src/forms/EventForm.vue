@@ -2,13 +2,8 @@
   <form id="event" v-on:submit.prevent="apply">
     <p>
       Create a QR code for an event you are planning. By scanning the QR code,
-      your users can directly add this event into their calendars. The summary (or
+      your users can directly add this event to their calendars. The summary (or
       title), start, and end times are required, the rest is optional.
-      <strong>
-        Note that all times are expected in <em>your local timezone</em>
-      </strong>. That means, please choose the start and end date based on your
-      own timezone. The app will convert the times into UTC and direct anyone's
-      smartphone to convert that time into the user's own timezone.
     </p>
 
     <div class="form-line">

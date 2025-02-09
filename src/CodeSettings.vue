@@ -1,15 +1,10 @@
 <template>
   <form id="settings">
-    <p>
-      Customize your QR code here. Choose a display style, the amount of error
-      correction, and the overall size of the QR code. The margin property
-      controls the "quiet zone" around the code. Your logo must be either PNG
-      or JPEG, and it should neither be too large nor too small for optimal
-      display. The first background color is transparent, which might be useful
-      for some applications.
-    </p>
+    <p>Customize your QR code here.</p>
+
     <div class="form-line">
       <label for="style">Style</label>
+      <HelpIcon v-bind:size="20" v-bind:title="'Selects the drawing style for the QR code for various aesthetics.'"></HelpIcon>
       <select name="style" v-model="store.state.style">
         <option value="default">Squares (default)</option>
         <option value="dots">Dots</option>
@@ -19,6 +14,7 @@
 
     <div class="form-line">
       <label for="ec">Error correction</label>
+      <HelpIcon v-bind:size="20" v-bind:title="'Error correction means: How resistant is this QR code to obstructions? Higher error correction means that you can obstruct or destroy larger parts of the QR code while it is still readable.'"></HelpIcon>
       <select name="ec" v-model="store.state.errorCorrection">
         <option value="L">Low</option>
         <option value="M">Medium</option>
@@ -27,7 +23,8 @@
       </select>
     </div>
     <div class="form-line">
-      <label for="scale">Size</label>
+      <label for="scale">Resolution</label>
+      <HelpIcon v-bind:size="20" v-bind:title="'Increase or decrease the QR code\'s size.'"></HelpIcon>
       <div class="flex">
         <button
           v-on:click.prevent="store.state.scale > 0 ? store.state.scale-- : false"
@@ -46,6 +43,7 @@
     </div>
     <div class="form-line">
       <label for="margin">Margin</label>
+      <HelpIcon v-bind:size="20" v-bind:title="'Usually, QR codes should have some margin around it. Here you can adjust it. If you already know that there won\'t be anything around the QR code, you can set this to zero.'"></HelpIcon>
       <div class="flex">
         <button
           v-on:click.prevent="store.state.margin > 0 ? store.state.margin-- : false"
@@ -65,6 +63,7 @@
 
     <div class="form-line">
       <label for="logo">Logo</label>
+      <HelpIcon v-bind:size="20" v-bind:title="'Add an optional logo in the center of your QR code. Supported are PNG and JPEG images.'"></HelpIcon>
       <div class="flex">
         <img v-if="store.state.logo !== undefined" v-bind:src="store.state.logo" style="max-width: 25%">
         <input v-if="store.state.logo === undefined" type="file" accept=".png, .jpg, .jpeg" v-on:input="handleImage">
@@ -73,6 +72,7 @@
     </div>
     <div class="form-line">
       <label for="logo-size">Logo size</label>
+      <HelpIcon v-bind:size="20" v-bind:title="'The larger the logo, the higher the error correction should be. Remember to test your QR code before downloading it.'"></HelpIcon>
       <div class="flex">
         <button v-on:click.prevent="store.state.logoSize = 'S'">S</button>
         <button v-on:click.prevent="store.state.logoSize = 'M'">M</button>
@@ -81,12 +81,14 @@
     </div>
 
     <div class="form-line">
-      <label for="fg">Foreground color</label>
+      <label for="fg">Foreground</label>
+      <HelpIcon v-bind:size="20" v-bind:title="'Choose a color for the QR code itself. The last choice allows choosing a custom color.'"></HelpIcon>
       <div class="flex">
         <div
           class="color-swatch"
           v-for="col in fgColors"
           v-bind:style="`background-color: ${col}`"
+          v-bind:title="col"
           v-bind:class="{ active: store.state.foregroundColor === col }"
           v-on:click="setColor(col, 'fg')"
         ></div>
@@ -101,12 +103,14 @@
       </div>
     </div>
     <div class="form-line">
-      <label for="bg">Background color</label>
+      <label for="bg">Background</label>
+      <HelpIcon v-bind:size="20" v-bind:title="'Choose a background color. The first choice is transparent, the last one allows choosing a custom color.'"></HelpIcon>
       <div class="flex">
         <div
           class="color-swatch"
           v-for="col in bgColors"
           v-bind:style="`background-color: ${col}`"
+          v-bind:title="col"
           v-bind:class="{ active: store.state.backgroundColor === col }"
           v-on:click="setColor(col, 'bg')"
         ></div>
@@ -124,8 +128,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useStore } from './pinia'
+import HelpIcon from './icons/HelpIcon.vue'
 
 const customFgColor = ref('#000000ff')
 const customBgColor = ref('#ffffffff')
@@ -184,6 +189,10 @@ div.flex {
   align-items: center;
   column-gap: 20px;
   row-gap: 5px;
+}
+
+div.form-line {
+  grid-template-columns: minmax(100px, 20%) 20px auto;
 }
 
 .color-swatch {
