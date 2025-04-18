@@ -1,15 +1,17 @@
 <template>
-  <div id="qr-code-container">
-    <canvas id="qr-code"></canvas>
-    <div class="button-container">
-      <a class="button big" v-on:click.prevent="download('png')">Download as PNG</a>
-      <a class="button big" v-on:click.prevent="download('jpg')">Download as JPG</a>
-    </div>
-    <details id="qr-code-info">
-      <summary>QR Code information</summary>
-      <pre><code>{{ qrInfo }}</code></pre>
-    </details>
+  <div class="qr-code-container">
+    <canvas ref="qrCode"></canvas>
   </div>
+
+  <div v-if="props.showButtons === true" class="button-container">
+    <Button v-on:click.prevent="download('png')">Download as PNG</Button>
+    <Button v-on:click.prevent="download('jpg')">Download as JPG</Button>
+  </div>
+
+  <details v-if="props.showInfo === true" class="qr-code-info">
+    <summary>QR Code information</summary>
+    <pre><code>{{ qrInfo }}</code></pre>
+  </details>
 </template>
 
 <script setup lang="ts">
@@ -17,8 +19,22 @@ import { useStore } from './pinia'
 import { create as createQRCode, GeneratedQRCodeSegment } from 'qrcode'
 import { qrToCanvas } from './render-canvas'
 import { onMounted, ref, computed } from 'vue'
+import { Button } from 'primevue'
+
+const props = defineProps<{
+  /**
+   * Should the component display QR code Debug info?
+   */
+  showInfo?: boolean
+  /**
+   * Should the component display download buttons?
+   */
+  showButtons?: boolean
+}>()
 
 const store = useStore()
+
+const qrCode = ref<HTMLCanvasElement|null>(null)
 
 // Whenever the state updates, update the QR code
 store.$subscribe((mutation, state) => {
@@ -67,7 +83,11 @@ const qrInfo = computed(() => {
 onMounted(updateQRRender)
 
 function updateQRRender () {
-  const canvas: HTMLCanvasElement = document.querySelector('#qr-code')
+  const canvas = qrCode.value
+  if (canvas === null) {
+    return
+  }
+
   const ctx = canvas.getContext('2d')
   ctx.fillStyle = 'rgba(255, 255, 255, 1)'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
@@ -95,7 +115,11 @@ function updateQRRender () {
 }
 
 function download (type: 'jpg'|'png') {
-  const canvas: HTMLCanvasElement = document.querySelector('#qr-code')
+  const canvas = qrCode.value
+  if (canvas === null) {
+    return
+  }
+
   canvas.toBlob(blob => {
     const file = new File([blob], type === 'png' ? 'qr.png' : 'qr.jpg')
     const a = document.createElement('a')
@@ -114,9 +138,11 @@ function download (type: 'jpg'|'png') {
 </script>
 
 <style lang="css" scoped>
-#qr-code-container {
+.qr-code-container {
+  display: flex;
   canvas {
     margin: 20px auto;
+    max-width: 100%;
   }
 }
 
@@ -124,30 +150,10 @@ function download (type: 'jpg'|'png') {
   display: flex;
   gap: 20px;
   margin: 10px 0;
+  justify-content: center;
 }
 
-a.button.big {
-  display: block;
-  flex-grow: 1;
-  background-color: var(--accent-bg-light);
-  color: var(--accent-fg-light);
-  border: 1px solid var(--input-border-light);
-  line-height: 40px;
-  font-size: 150%;
-  cursor: pointer;
-}
-
-a.button.big:first-child {
-  border-top-left-radius: var(--border-radius);
-  border-bottom-left-radius: var(--border-radius);
-}
-
-a.button.big:last-child {
-  border-top-right-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
-}
-
-#qr-code-info {
+.qr-code-info {
   text-align: left;
   padding: 10px;
   background-color: var(--header-bg-dark);
@@ -160,14 +166,6 @@ a.button.big:last-child {
 
   &[open] summary {
     border-bottom: 1px solid var(--fg-dark);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  a.button.big {
-    background-color: var(--accent-bg-dark);
-    color: var(--input-fg-dark);
-    border-color: var(--input-border-dark);
   }
 }
 </style>

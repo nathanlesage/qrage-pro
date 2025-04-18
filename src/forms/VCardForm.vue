@@ -1,5 +1,5 @@
 <template>
-  <form id="vcard" v-on:submit.prevent="apply">
+  <Form id="vcard" v-on:submit.prevent="apply">
     <p>
       Create a business card &ndash; either for yourself or for your business. Except
       the name, all properties are optional. If you create an organization, choose
@@ -8,135 +8,143 @@
       your work phone, put that one into both the work phone and main phone
       fields. Likewise with your personal (home) phone.
     </p>
-    <div class="form-line">
+
+    <FormField v-slot="$field" class="form-line">
       <label>Given name</label>
-      <input type="text" v-model="givenName" placeholder="John" required>
-    </div>
+      <InputText type="text" v-model="givenName" placeholder="John" required />
+    </FormField>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label>Family name</label>
-      <input type="text" v-model="familyName" placeholder="Doe" required>
-    </div>
+      <InputText type="text" v-model="familyName" placeholder="Doe" required />
+    </FormField>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label>Personal Email</label>
-      <input type="email" v-model="personalEmail" placeholder="john.doe@gmail.com">
-    </div>
+      <InputText type="email" v-model="personalEmail" placeholder="john.doe@gmail.com" />
+    </FormField>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label>Website</label>
-      <input type="url" v-model="website" placeholder="https://www.john-doe.com/">
-    </div>
+      <InputText type="url" v-model="website" placeholder="https://www.john-doe.com/" />
+    </FormField>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label>Main Phone</label>
-      <input type="tel" v-model="mainPhone" placeholder="+1 232 456 78">
-    </div>
+      <InputText type="tel" v-model="mainPhone" placeholder="+1 232 456 78" />
+    </FormField>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label>Home phone</label>
-      <input type="tel" v-model="homePhone" placeholder="+1 232 456 78">
-    </div>
+      <InputText type="tel" v-model="homePhone" placeholder="+1 232 456 78" />
+    </FormField>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label>Note</label>
-      <input type="text" v-model="note" placeholder="Something to note">
-    </div>
+      <InputText type="text" v-model="note" placeholder="Something to note" />
+    </FormField>
 
     <fieldset>
       <legend>Personal address</legend>
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>Street</label>
-        <input type="text" v-model="homeStreet" placeholder="Street Avenue 2324">
-      </div>
+        <InputText type="text" v-model="homeStreet" placeholder="Street Avenue 2324" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>City</label>
-        <input type="text" v-model="homeCity" placeholder="Atlantic City">
-      </div>
+        <InputText type="text" v-model="homeCity" placeholder="Atlantic City" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>ZIP code</label>
-        <input type="text" v-model="homeZip" placeholder="60219">
-      </div>
+        <InputText type="text" v-model="homeZip" placeholder="60219" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>State</label>
-        <input type="text" v-model="homeState" placeholder="Pennsylvania">
-      </div>
+        <InputText type="text" v-model="homeState" placeholder="Pennsylvania" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>Country</label>
-        <input type="text" v-model="homeCountry" placeholder="USA">
-      </div>
+        <InputText type="text" v-model="homeCountry" placeholder="USA" />
+      </FormField>
     </fieldset>
 
     <fieldset>
       <legend>Work</legend>
-      <div class="form-line">
+
+      <FormField v-slot="$field" class="form-line">
         <label>Company/Organization</label>
-        <input type="text" v-model="company" placeholder="ACME company">
-      </div>
+        <InputText type="text" v-model="company" placeholder="ACME company" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>Role</label>
-        <input type="text" v-model="role" placeholder="Manager">
-      </div>
+        <InputText type="text" v-model="role" placeholder="Manager" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>Title</label>
-        <input type="text" v-model="title" placeholder="CEO">
-      </div>
+        <InputText type="text" v-model="title" placeholder="CEO" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>Street</label>
-        <input type="text" v-model="workStreet" placeholder="Street Avenue 2324">
-      </div>
+        <InputText type="text" v-model="workStreet" placeholder="Street Avenue 2324" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>City</label>
-        <input type="text" v-model="workCity" placeholder="Atlantic City">
-      </div>
+        <InputText type="text" v-model="workCity" placeholder="Atlantic City" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>ZIP code</label>
-        <input type="text" v-model="workZip" placeholder="60219">
-      </div>
+        <InputText type="text" v-model="workZip" placeholder="60219" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>State</label>
-        <input type="text" v-model="workState" placeholder="Pennsylvania">
-      </div>
+        <InputText type="text" v-model="workState" placeholder="Pennsylvania" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>Country</label>
-        <input type="text" v-model="workCountry" placeholder="USA">
-      </div>
+        <InputText type="text" v-model="workCountry" placeholder="USA" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>Work Email</label>
-        <input type="email" v-model="workEmail" placeholder="john@company.com">
-      </div>
+        <InputText type="email" v-model="workEmail" placeholder="john@company.com" />
+      </FormField>
 
-      <div class="form-line">
+      <FormField v-slot="$field" class="form-line">
         <label>Work phone</label>
-        <input type="tel" v-model="workPhone" placeholder="+1 232 456 78">
-      </div>
+        <InputText type="tel" v-model="workPhone" placeholder="+1 232 456 78" />
+      </FormField>
     </fieldset>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <span></span>
-      <input type="submit" value="Create VCard QR Code">
-    </div>
-  </form>
+      <Button type="submit">Create VCard QR Code</Button>
+    </FormField>
+  </Form>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useStore } from '../pinia'
 import { v4 as uuid } from 'uuid'
+import { Button, InputText } from 'primevue'
+import { FormField, Form } from '@primevue/forms'
 
 const store = useStore()
+
+const emit = defineEmits<{
+  (e: 'completed'): void
+}>()
 
 const givenName = ref('')
 const familyName = ref('')
@@ -191,6 +199,7 @@ function apply () {
   ]
 
   store.setQRData(data.join('\n'))
+  emit('completed')
 }
 </script>
 

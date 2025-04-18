@@ -17,10 +17,10 @@
   --input-border-light: #333;
   --input-border-dark: #999;
 
-  --accent-fg-light: #0084ff;
+  --accent-fg-light: #044582;
   --accent-fg-dark: #47b9fe;
 
-  --accent-bg-light: #caddff;
+  --accent-bg-light: #a4d9ff;
   --accent-bg-dark: #303f6e;
 
   /* Other variables */
@@ -92,10 +92,23 @@ div.container {
 div.form-line {
   display: grid;
   grid-template-columns: minmax(100px, 20%) auto;
-  grid-template-rows: auto;
+  grid-template-areas: "label input" "empty info";
+  grid-template-rows: min-content min-content;
   align-items: center;
   gap: 20px;
   margin: 15px 0;
+
+  & > label {
+    grid-area: label;
+  }
+
+  p.info-text {
+    font-size: 80%;
+    color: var(--p-surface-500);
+    margin: 0;
+    grid-area: info;
+    align-self: flex-start;
+  }
 }
 
 form input, form select {

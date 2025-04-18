@@ -1,38 +1,76 @@
 <template>
   <header>
     <div class="container">
-      <h1>QRage Pro <small>The No-BS QR Code Generator</small></h1>
+      <h1>QRage Pro</h1>
+      <small>The No-BS QR Code Generator</small>
     </div>
   </header>
   <div class="container">
       <section class="lead">
-        Generate beautiful and custom QR codes in a breeze. Simply select the
-        appropriate tab, enter the data you want to see in the QR code, and
-        adapt the settings. QRage Pro lets you customize everything from colors
-        to even include your own logo.
+        Generate beautiful and custom QR codes for any occasion in a breeze.
+        Follow our wizard, provide the data you want to encode, and adapt the
+        looks and feel for your QR Code. QRage Pro lets you customize everything
+        from colors to even include your own logo. And the best? Everything
+        happens on your computer, and no data is transmitted over the internet.
       </section>
-      <div id="tab-container">
-        <a href="#text" v-on:click.prevent="currentForm = 'text'" v-bind:class="{ active: currentForm === 'text' }">Text</a>
-        <a href="#wifi" v-on:click.prevent="currentForm = 'wifi'" v-bind:class="{ active: currentForm === 'wifi' }">WiFi</a>
-        <a href="#vcard" v-on:click.prevent="currentForm = 'vcard'" v-bind:class="{ active: currentForm === 'vcard' }">VCard</a>
-        <a href="#event" v-on:click.prevent="currentForm = 'event'" v-bind:class="{ active: currentForm === 'event' }">Event</a>
-        <span style="flex-grow: 1"><!-- spacer --></span>
-        <a href="#settings" v-on:click.prevent="currentForm = 'settings'" v-bind:class="{ active: currentForm === 'settings', special: true }">Settings</a>
-      </div>
-      <div id="form-container">
-        <TextForm v-show="currentForm === 'text'"></TextForm>
-        <WifiForm v-show="currentForm === 'wifi'"></WifiForm>
-        <VCardForm v-show="currentForm === 'vcard'"></VCardForm>
-        <EventForm v-show="currentForm === 'event'"></EventForm>
-        <CodeSettings v-if="currentForm === 'settings'"></CodeSettings>
-      </div>
-      <!-- Actual QR Code Canvas -->
-      <QRCode></QRCode>
+
+      <Stepper value="1" v-bind:linear="linear">
+        <StepItem value="1">
+          <Step>Choose QR Code Type</Step>
+          <StepPanel v-slot="{ activateCallback }">
+            <SelectButton
+              v-model="currentForm"
+              v-bind:options="[
+                [ 'text', 'Text' ],
+                [ 'wifi', 'WiFi' ],
+                [ 'vcard', 'VCard' ],
+                [ 'event', 'Event' ]
+              ]"
+              v-bind:option-label="(data) => data[1]"
+              v-bind:option-value="(data) => data[0]"
+              v-on:value-change="value => selectQRType(value, activateCallback)"
+            ></SelectButton>
+          </StepPanel>
+        </StepItem>
+
+        <StepItem value="2">
+          <Step>Provide data</Step>
+          <StepPanel v-slot="{ activateCallback }">
+            <TextForm v-show="currentForm === 'text'" v-on:completed="linear = false; activateCallback('3')"></TextForm>
+            <WifiForm v-show="currentForm === 'wifi'" v-on:completed="linear = false; activateCallback('3')"></WifiForm>
+            <VCardForm v-show="currentForm === 'vcard'" v-on:completed="linear = false; activateCallback('3')"></VCardForm>
+            <EventForm v-show="currentForm === 'event'" v-on:completed="linear = false; activateCallback('3')"></EventForm>
+          </StepPanel>
+        </StepItem>
+
+        <StepItem value="3">
+          <Step>Customize QR Code</Step>
+          <StepPanel v-slot="{ activateCallback }">
+            <!-- Just the QR Code Canvas as Preview -->
+            <QRCode></QRCode>
+
+            <!-- Settings -->
+            <CodeSettings></CodeSettings>
+
+            <Button v-on:click="activateCallback('4')">Review &amp; Download</Button>
+          </StepPanel>
+        </StepItem>
+
+        <StepItem value="4">
+          <Step>Download QR Code</Step>
+          <StepPanel v-slot="{ activateCallback }">
+            <p>Test your QR code, and download it as JPG or PNG.</p>
+            <Button v-on:click="activateCallback('3')">Adapt Settings</Button>
+            <!-- QR code for confirmation and download -->
+            <QRCode :show-buttons="true" :show-info="true"></QRCode>
+          </StepPanel>
+        </StepItem>
+      </Stepper>
     </div>
     <footer>
       <div class="container">
         <strong>QRage Pro</strong>
-        | &copy; 2024 Hendrik Erz
+        | &copy; 2025 Hendrik Erz
         | <a href="https://github.com/nathanlesage/qrage-pro">View on GitHub</a>
       </div>
     </footer>
@@ -46,8 +84,26 @@ import VCardForm from './forms/VCardForm.vue'
 import WifiForm from './forms/WifiForm.vue'
 import QRCode from './QRCode.vue'
 import { ref } from 'vue'
+import { Button } from 'primevue'
 
-const currentForm = ref('text')
+// For the step wizard
+import { SelectButton } from 'primevue'
+import Stepper from 'primevue/stepper'
+import StepItem from 'primevue/stepitem'
+import Step from 'primevue/step'
+import StepPanel from 'primevue/steppanel'
+
+const currentForm = ref('')
+const linear = ref(true)
+
+function selectQRType (value: string|null, activateCallback: Function) {
+  if (value === null) {
+    return
+  }
+
+  currentForm.value = value
+  activateCallback('2')
+}
 </script>
 
 <style lang="css" scoped>

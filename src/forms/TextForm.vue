@@ -1,44 +1,51 @@
 <template>
-  <form id="url" v-on:submit.prevent="apply">
+  <Form id="url" v-on:submit="apply">
     <p>
       Encode a link, an email, some arbitrary text, a telephone number, or
       similar data in the QR code.
     </p>
+
     <div class="form-line">
-      <label>Data type</label>
+      <label>Data type:</label>
       <div id="text-format-container">
-        <div
-          v-for="label, key in DATA_TYPES"
-          v-bind:class="{ 'format-button': true, active: key === dataType }"
-          v-on:click="dataType = key"
-        >
-          {{ label }}
-        </div>
+        <FormField v-slot="$field" name="data-types" v-bind:initial-value="dataType">
+          <SelectButton
+            v-model="dataType"
+            v-bind:options="Object.entries(DATA_TYPES)"
+            v-bind:option-label="(data) => data[1]"
+            v-bind:option-value="(data) => data[0]"
+          ></SelectButton>
+        </FormField>
       </div>
     </div>
+
     <div class="form-line">
       <label for="data">
         {{ DATA_TYPES[dataType] }}:
       </label>
-      <input
-        v-bind:type="INPUT_TYPES[dataType]"
-        name="data"
-        v-bind:placeholder="PLACEHOLDERS[dataType]"
-        v-model="data"
-      >
+
+      <FormField v-slot="$field" name="data" initialValue="">
+        <InputText v-bind:type="INPUT_TYPES[dataType]" v-bind:placeholder="PLACEHOLDERS[dataType]" v-model="data" fluid />
+      </FormField>
     </div>
     <div class="form-line">
       <span></span>
-      <input type="submit" v-bind:value="`Generate ${DATA_TYPES[dataType]} QR code`">
+      <Button type="submit">Generate {{ DATA_TYPES[dataType] }} QR code</Button>
     </div>
-  </form>
+  </Form>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { InputTypeHTMLAttribute, ref } from 'vue'
 import { useStore } from '../pinia'
+import { Form, FormField } from '@primevue/forms'
+import { InputText, Button, SelectButton } from 'primevue'
 
 const store = useStore()
+
+const emit = defineEmits<{
+  (e: 'completed'): void
+}>()
 
 const DATA_TYPES = {
   url: 'URL',
@@ -54,7 +61,7 @@ const PLACEHOLDERS: Record<keyof typeof DATA_TYPES, string> = {
   phone: '+1 232 567 89'
 }
 
-const INPUT_TYPES: Record<keyof typeof DATA_TYPES, string> = {
+const INPUT_TYPES: Record<keyof typeof DATA_TYPES, InputTypeHTMLAttribute> = {
   url: 'url',
   text: 'text',
   email: 'email',
@@ -70,12 +77,15 @@ function apply () {
     case 'url':
     case 'text':
       store.setQRData(data.value)
+      emit('completed')
       break
     case 'email':
       store.setQRData(`MATMSG:TO:${data.value};SUB:;BODY:;`)
+      emit('completed')
       break
     case 'phone':
       store.setQRData(`TEL:${data.value}`)
+      emit('completed')
       break
   }
 }

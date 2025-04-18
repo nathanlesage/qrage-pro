@@ -1,88 +1,128 @@
 <template>
-  <form id="settings">
-    <p>Customize your QR code here.</p>
+  <Form id="settings">
+    <h2>Customize Your QR Code</h2>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label for="style">Style</label>
-      <HelpIcon v-bind:size="20" v-bind:title="'Selects the drawing style for the QR code for various aesthetics.'"></HelpIcon>
-      <select name="style" v-model="store.state.style">
-        <option value="default">Squares (default)</option>
-        <option value="dots">Dots</option>
-        <option value="rorschach">Rorschach blot</option>
-      </select>
-    </div>
+      <SelectButton v-bind:options="[
+          ['default', 'Squares (default)'],
+          ['dots', 'Dots'],
+          ['rorschach', 'Rorschach blot']
+        ]"
+        v-bind:option-label="(data) => data[1]"
+        v-bind:option-value="(data) => data[0]"
+        v-model="store.state.style"
+        name="style"
+      />
+      <p class="info-text">Selects the drawing style for the QR code for various aesthetics.</p>
+    </FormField>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label for="ec">Error correction</label>
-      <HelpIcon v-bind:size="20" v-bind:title="'Error correction means: How resistant is this QR code to obstructions? Higher error correction means that you can obstruct or destroy larger parts of the QR code while it is still readable.'"></HelpIcon>
-      <select name="ec" v-model="store.state.errorCorrection">
-        <option value="L">Low</option>
-        <option value="M">Medium</option>
-        <option value="Q">Quartile</option>
-        <option value="H">High</option>
-      </select>
-    </div>
-    <div class="form-line">
+      <SelectButton v-bind:options="[
+          ['L', 'Low'],
+          ['M', 'Medium'],
+          ['Q', 'Quartile'],
+          ['H', 'High']
+        ]"
+        v-bind:option-label="(data) => data[1]"
+        v-bind:option-value="(data) => data[0]"
+        v-model="store.state.errorCorrection"
+        name="ec"
+      />
+      <p class="info-text">
+        Higher error correction means that you can obstruct or destroy larger parts of the QR code while it is still readable. Obstructions include logos.
+      </p>
+    </FormField>
+
+    <FormField v-slot="$field" class="form-line">
       <label for="scale">Resolution</label>
-      <HelpIcon v-bind:size="20" v-bind:title="'Increase or decrease the QR code\'s size.'"></HelpIcon>
-      <div class="flex">
-        <button
-          v-on:click.prevent="store.state.scale > 0 ? store.state.scale-- : false"
-        >
-          &minus;
-        </button>
-        <button
-        v-on:click.prevent="store.state.scale < 100 ? store.state.scale++ : false"
-        >
-          &plus;
-        </button>
-        <span>
-          {{ store.state.scale }}&times;
-        </span>
-      </div>
-    </div>
-    <div class="form-line">
+      <InputNumber
+        v-model="store.state.scale"
+        name="scale"
+        showButtons
+        buttonLayout="horizontal"
+        v-bind:min="1"
+        v-bind:step="1"
+        increment-icon="pi pi-plus"
+        decrement-icon="pi pi-minus"
+        suffix=" ppb"
+        fluid
+      />
+      <p class="info-text">Adjust the QR code's resolution (in pixel per block).</p>
+    </FormField>
+
+    <FormField v-slot="$field" class="form-line">
       <label for="margin">Margin</label>
-      <HelpIcon v-bind:size="20" v-bind:title="'Usually, QR codes should have some margin around it. Here you can adjust it. If you already know that there won\'t be anything around the QR code, you can set this to zero.'"></HelpIcon>
-      <div class="flex">
-        <button
-          v-on:click.prevent="store.state.margin > 0 ? store.state.margin-- : false"
-        >
-          &minus;
-        </button>
-        <button
-        v-on:click.prevent="store.state.margin < 100 ? store.state.margin++ : false"
-        >
-        &plus;
-      </button>
-      <span>
-        {{ store.state.margin }} blocks
-      </span>
-      </div>
-    </div>
+      <InputNumber
+        v-model="store.state.margin"
+        name="scale"
+        showButtons
+        buttonLayout="horizontal"
+        v-bind:min="0"
+        v-bind:max="100"
+        v-bind:step="1"
+        increment-icon="pi pi-plus"
+        decrement-icon="pi pi-minus"
+        v-bind:suffix="store.state.margin === 1 ? ' block' : ' blocks'"
+        fluid
+      />
+      <p class="info-text">
+        QR codes need margin around it so that readers can decode them. If you already know that there won't be anything around the QR code, you can set this to zero.
+      </p>
+    </FormField>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label for="logo">Logo</label>
-      <HelpIcon v-bind:size="20" v-bind:title="'Add an optional logo in the center of your QR code. Supported are PNG and JPEG images.'"></HelpIcon>
-      <div class="flex">
-        <img v-if="store.state.logo !== undefined" v-bind:src="store.state.logo" style="max-width: 25%">
-        <input v-if="store.state.logo === undefined" type="file" accept=".png, .jpg, .jpeg" v-on:input="handleImage">
-        <button v-if="store.state.logo !== undefined" v-on:click.prevent="store.state.logo = undefined">Remove</button>
-      </div>
-    </div>
-    <div class="form-line">
-      <label for="logo-size">Logo size</label>
-      <HelpIcon v-bind:size="20" v-bind:title="'The larger the logo, the higher the error correction should be. Remember to test your QR code before downloading it.'"></HelpIcon>
-      <div class="flex">
-        <button v-on:click.prevent="store.state.logoSize = 'S'">S</button>
-        <button v-on:click.prevent="store.state.logoSize = 'M'">M</button>
-        <button v-on:click.prevent="store.state.logoSize = 'L'">L</button>
-      </div>
-    </div>
+      <FileUpload
+        v-on:select="handleImage"
+        accept=".png, .jpg, .jpeg"
+        v-bind:multiple="false"
+        invalid-file-type-message="Wrong file type"
+        auto
+        v-on:remove-uploaded-file="store.state.logo = undefined"
+      >
+        <template #header="{ chooseCallback, uploadedFiles }">
+          <Button
+            v-on:click="chooseCallback()"
+            icon="pi pi-images"
+            label="Browse"
+            v-bind:disabled="uploadedFiles.length > 0"
+          />
+        </template>
+        <template #empty>
+          Choose or drop a logo file as PNG or JPEG.
+        </template>
+      </FileUpload>
 
-    <div class="form-line">
+      <p class="info-text">
+        Add an optional logo in the center of your QR code. Supported are PNG and JPEG images.
+      </p>
+    </FormField>
+
+    <FormField v-slot="$field" class="form-line">
+      <label for="logo-size">Logo size</label>
+
+      <SelectButton
+        v-model="store.state.logoSize"
+        v-bind:options="[
+          [ 'S', 'Small' ],
+          [ 'M', 'Medium' ],
+          [ 'L', 'Large' ]
+        ]"
+        v-bind:option-label="(data) => data[1]"
+        v-bind:option-value="(data) => data[0]"
+      />
+
+      <p class="info-text">
+        The larger the logo, the higher the error correction should be. Remember to test your QR code before downloading it.
+      </p>
+
+    </FormField>
+
+    <FormField v-slot="$field" class="form-line">
       <label for="fg">Foreground</label>
-      <HelpIcon v-bind:size="20" v-bind:title="'Choose a color for the QR code itself. The last choice allows choosing a custom color.'"></HelpIcon>
+
       <div class="flex">
         <div
           class="color-swatch"
@@ -92,19 +132,21 @@
           v-bind:class="{ active: store.state.foregroundColor === col }"
           v-on:click="setColor(col, 'fg')"
         ></div>
-        <input
-          type="color"
-          class="color-swatch"
-          title="Custom foreground color"
-          v-bind:class="{ active: store.state.foregroundColor === customFgColor }"
+        <ColorPicker
+          class="colorpicker-overwrite"
           v-model="customFgColor"
           v-on:change="setColor(customFgColor, 'fg')"
-        >
+        />
       </div>
-    </div>
-    <div class="form-line">
+
+      <p class="info-text">
+        Choose a color for the QR code itself. The last choice allows choosing a custom color.
+      </p>
+    </FormField>
+
+    <FormField v-slot="$field" class="form-line">
       <label for="bg">Background</label>
-      <HelpIcon v-bind:size="20" v-bind:title="'Choose a background color. The first choice is transparent, the last one allows choosing a custom color.'"></HelpIcon>
+
       <div class="flex">
         <div
           class="color-swatch"
@@ -114,23 +156,25 @@
           v-bind:class="{ active: store.state.backgroundColor === col }"
           v-on:click="setColor(col, 'bg')"
         ></div>
-        <input
-          type="color"
-          class="color-swatch"
-          title="Custom background color"
-          v-bind:class="{ active: store.state.backgroundColor === customBgColor }"
+        <ColorPicker
+          class="colorpicker-overwrite"
           v-model="customBgColor"
           v-on:change="setColor(customBgColor, 'bg')"
-        >
+        />
       </div>
-    </div>
-  </form>
+
+      <p class="info-text">
+        Choose a background color. The first choice is transparent, the last one allows choosing a custom color.
+      </p>
+    </FormField>
+  </Form>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useStore } from './pinia'
-import HelpIcon from './icons/HelpIcon.vue'
+import { Form, FormField } from '@primevue/forms'
+import { ColorPicker, InputNumber, Button, SelectButton, FileUpload, FileUploadSelectEvent } from 'primevue'
 
 const customFgColor = ref('#000000ff')
 const customBgColor = ref('#ffffffff')
@@ -167,7 +211,8 @@ function setColor(color: string, where: 'fg'|'bg') {
   }
 }
 
-function handleImage (event: Event) {
+function handleImage (customEvent: FileUploadSelectEvent) {
+  const event = customEvent.originalEvent
   const input = event.target as HTMLInputElement
   if (input.files.length === 0) {
     return
@@ -191,10 +236,6 @@ div.flex {
   row-gap: 5px;
 }
 
-div.form-line {
-  grid-template-columns: minmax(100px, 20%) 20px auto;
-}
-
 .color-swatch {
   display: inline-block;
   width: 20px;
@@ -202,6 +243,13 @@ div.form-line {
   border-radius: var(--border-radius);
   border: 2px solid #999;
   appearance: none;
+}
+
+.colorpicker-overwrite {
+  --p-colorpicker-preview-width: 20px;
+  --p-colorpicker-preview-height: 20px;
+  --p-colorpicker-preview-border-radius: var(--border-radius);
+  --p-colorpicker-panel-border-color: #999;
 }
 
 .color-swatch.active {

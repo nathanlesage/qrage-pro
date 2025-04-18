@@ -1,43 +1,43 @@
 <template>
-  <form id="event" v-on:submit.prevent="apply">
+  <Form id="event" v-on:submit.prevent="apply">
     <p>
       Create a QR code for an event you are planning. By scanning the QR code,
       your users can directly add this event to their calendars. The summary (or
       title), start, and end times are required, the rest is optional.
     </p>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label for="summary">Summary</label>
-      <input type="text" name="summary" placeholder="What is the event about?" v-model="summary" required>
-    </div>
-    <div class="form-line">
+      <InputText name="summary" placeholder="What is the event about?" v-model="summary" required></InputText>
+    </FormField>
+    <FormField v-slot="$field" class="form-line">
       <label for="dtstart">Start</label>
-      <input type="datetime-local" name="dtstart" placeholder="Start date" v-model="dtstart" required>
-    </div>
-    <div class="form-line">
+      <DatePicker id="dtstart" v-model="dtstart" showTime hourFormat="24" fluid required />
+    </FormField>
+    <FormField v-slot="$field" class="form-line">
       <label for="dtstart">End</label>
-      <input type="datetime-local" name="dtend" placeholder="End date" v-model="dtend" required>
-    </div>
-    <div class="form-line">
+      <DatePicker id="dtend" v-model="dtend" showTime hourFormat="24" fluid required />
+    </FormField>
+    <FormField v-slot="$field" class="form-line">
       <label for="pass">Location</label>
-      <input type="text" placeholder="Street Avenue 2324" v-model="location">
-    </div>
+      <InputText type="text" placeholder="Street Avenue 2324" v-model="location" />
+    </FormField>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label for="pass">URL</label>
-      <input type="url" placeholder="https://www.example.com" v-model="url">
-    </div>
+      <InputText type="url" placeholder="https://www.example.com" v-model="url" />
+    </FormField>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <label for="pass">Description</label>
-      <input type="text" placeholder="A longer description" v-model="description">
-    </div>
+      <InputText type="text" placeholder="A longer description" v-model="description" />
+    </FormField>
 
-    <div class="form-line">
+    <FormField v-slot="$field" class="form-line">
       <span></span>
-      <input type="submit" value="Create Event QR code">
-    </div>
-  </form>
+      <Button type="submit">Create Event QR Code</Button>
+    </FormField>
+  </Form>
 </template>
 
 <script setup lang="ts">
@@ -45,13 +45,19 @@ import { ref } from 'vue'
 import { useStore } from '../pinia'
 import { v4 as uuid } from 'uuid'
 import { DateTime } from 'luxon'
+import { InputNumber, Button, SelectButton, InputText, DatePicker } from 'primevue'
+import { FormField } from '@primevue/forms'
 
 const store = useStore()
 
+const emit = defineEmits<{
+  (e: 'completed'): void
+}>()
+
 const summary = ref('')
 const description = ref('')
-const dtstart = ref('')
-const dtend = ref('')
+const dtstart = ref<Date>(new Date())
+const dtend = ref<Date>(new Date())
 const location = ref('')
 const url = ref('')
 
@@ -79,8 +85,8 @@ function apply() {
   // having to include an entire timezone block in here. Clients will
   // automatically calculate the local offsets from this.
   const opts = { suppressMilliseconds: true, includeOffset: false }
-  const start = iso2iCal(DateTime.fromISO(dtstart.value).toUTC().toISO(opts))
-  const end = iso2iCal(DateTime.fromISO(dtend.value).toUTC().toISO(opts))
+  const start = iso2iCal(DateTime.fromJSDate(dtstart.value).toUTC().toISO(opts))
+  const end = iso2iCal(DateTime.fromJSDate(dtend.value).toUTC().toISO(opts))
   // Date toISO returns with fractional seconds after a period, which we need to
   // remove
   const now = iso2iCal(DateTime.utc().toISO(opts))
@@ -104,6 +110,7 @@ function apply() {
   ]
 
   store.setQRData(data.join('\n'))
+  emit('completed')
 }
 </script>
 

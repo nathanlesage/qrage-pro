@@ -4,7 +4,12 @@ const { DefinePlugin } = require('webpack')
 
 module.exports = {
   entry: './src/index.ts',
-  mode: 'development', // "development" or "production"
+  mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
+  devtool: 'inline-source-map',
+  devServer: {
+    static: './dist',
+    hot: true
+  },
   module: {
     rules: [
       {
@@ -33,7 +38,7 @@ module.exports = {
   },
   plugins: [
     // Apply webpack rules to the corresponding language blocks in .vue files
-    new VueLoaderPlugin(),,
+    new VueLoaderPlugin(),
     new DefinePlugin({
       __VUE_OPTIONS_API__: true,
       __VUE_PROD_DEVTOOLS__: false,
